@@ -1,4 +1,6 @@
-;;; init.el --- Init file for the ar-org-pack
+;;; init.el --- Init file for the ar-org-pack  -*- lexical-binding: t; -*-
+;;
+;; Author: Andrea Richiardi
 
 ;;; Commentary:
 ;;
@@ -10,10 +12,21 @@
 
 (use-package org-roam
   :after org
+
+  :bind-keymap ("C-c o" . org-roam-map)
+  :bind (:map org-roam-mode-map
+         ("l" . org-roam-buffer-toggle)
+         ("f" . org-roam-node-find)
+         ("g" . org-roam-graph)
+         ("n" . org-roam-node-insert)
+         ("c" . org-roam-capture)
+         ("i" . org-id-get-create)
+         ("j" . org-roam-dailies-capture-today))
+
   :config
   (setq org-roam-directory (concat ar-emacs-org-directory "/zettelkasten"))
   (setq org-roam-dailies-directory "journal/")
-  (setq ar-emacs--org-roam-current-job-file (concat org-roam-directory "/cohesic.org.gpg"))
+  (setq ar-emacs--org-roam-current-job-file (concat org-roam-directory "/comcast.org.gpg"))
 
   (setq org-roam-link-extensions '(".org" ".org.gpg"))
   (setq org-roam-db-location (expand-file-name "org-roam.db" live-etc-dir))
@@ -60,14 +73,7 @@
 
   (org-roam-db-autosync-mode)
   :custom
-  (org-roam-database-connector 'sqlite)
-  :bind (("C-c n l" . org-roam-buffer-toggle)
-         ("C-c n f" . org-roam-node-find)
-         ("C-c n g" . org-roam-graph)
-         ("C-c n i" . org-roam-node-insert)
-         ("C-c n c" . org-roam-capture)
-         ;; Dailies
-         ("C-c n j" . org-roam-dailies-capture-today)))
+  (org-roam-database-connector 'sqlite))
 
 (use-package org-roam-ui
   :after org
