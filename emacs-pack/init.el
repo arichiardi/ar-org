@@ -75,6 +75,10 @@
   :custom
   (org-roam-database-connector 'sqlite))
 
+;; Load agenda and capture config (depends on org-roam-directory being set)
+(live-load-config-file "org-agenda.el")
+(live-load-config-file "org-capture.el")
+
 (use-package org-roam-ui
   :after org
   :config
