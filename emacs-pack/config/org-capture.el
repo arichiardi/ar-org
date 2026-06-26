@@ -1,11 +1,13 @@
-;;; org-capture.el --- Org Capture Templates for ar-org-pack -*- lexical-binding: t; -*-
+;;; org-capture.el --- All Capture Templates for ar-org-pack -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;;
-;; Capture templates for the zettelkasten.
-;; Loaded by the ar-org-pack after org-roam-directory is set.
+;; All capture templates: org-roam-dailies, org-roam, and general org-capture.
+;; Loaded after org-roam-directory is bootstrapped.
 ;;
 ;;; Code:
+
+;; --- Shared template parts ---
 
 (setq ar-emacs--org-capture-todo (string-join
                                   (list "* TODO %^{Brief Description} %^g"
@@ -14,6 +16,50 @@
                                         ":END:"
                                         "%?")
                                   "\n"))
+
+(setq ar-emacs--org-roam-capture-todo-header "* TODO %^{Brief Description} %^g")
+(setq ar-emacs--org-roam-capture-work-todo
+    (string-join
+     (list ar-emacs--org-roam-capture-todo-header
+           ":PROPERTIES:"
+           ":ID: %(org-id-new)"
+           ":END:"
+           "%?")
+     "\n"))
+
+;; --- Org Roam Dailies ---
+
+(setq org-roam-dailies-capture-templates
+      `(("d" "default"
+         entry
+         "** %<%H:%M %p> %i%?\n"
+         :if-new (file+head+olp
+                  "%<%Y-%m-%d>.org.gpg"
+                  ,(string-join
+                    (list ":PROPERTIES:"
+                          ":ID: %(org-id-new)"
+                          ":END:"
+                          "-*- epa-file-encrypt-to: (\"a.richiardi.work@gmail.com\") -*-"
+                          "-*- backup-inhibited t; -*-"
+                          "#+TITLE: %<%Y-%m-%d>"
+                          "#+AUTHOR: Andrea Richiardi"
+                          "#+CATEGORY: daily"
+                          "#+STARTUP: content indent")
+                    "\n")
+                  ("Journal"))
+         :jump-to-captured t)))
+
+;; --- Org Roam Capture ---
+
+(setq org-roam-capture-templates
+      `(("w" "Work Templates")
+        ("wt" "Work Todo"
+         entry
+         ,ar-emacs--org-roam-capture-work-todo
+         :target (file+olp ,ar-emacs--org-roam-current-job-file ("Tasks"))
+         :clock-resume t)))
+
+;; --- General Org Capture ---
 
 (setq org-capture-templates
       `(("a" "Article/video to read/watch"
@@ -43,14 +89,6 @@
                  ":END:"
                  "%?")
            "\n") :clock-resume t)
-
-        ("w" "Work Templates")
-
-        ("wt" "Work Todo"
-         entry
-         (file ,(concat org-roam-directory "/work.org.gpg"))
-         ,ar-emacs--org-capture-todo
-         :clock-resume t)
 
         ("wr" "Review Note"
          entry

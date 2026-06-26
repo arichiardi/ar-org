@@ -9,7 +9,7 @@
 
 (setq org-default-notes-file (concat org-roam-directory "/notes.org.gpg"))
 (setq org-archive-location (concat org-roam-directory "/archive.org.gpg" "::datetree/"))
-(setq org-agenda-files (directory org-roam-directory))
+(setq org-agenda-files (list org-roam-directory))
 
 (setq org-agenda-custom-commands
       `(("d" todo "DONE|CANCELLED" nil)
