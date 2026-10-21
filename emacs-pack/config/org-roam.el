@@ -14,6 +14,16 @@
 
 (setq ar-emacs--org-roam-current-job-file (concat org-roam-directory "/comcast.org.gpg"))
 
+;; .org.gpg files get org-mode from auto-mode-alist ("\\.org"), so no
+;; local variables lines are needed in the files themselves. Encryption
+;; key and backup behaviour are set globally instead.
+(setq epa-file-encrypt-to '("a.richiardi.work@gmail.com"))
+(add-hook 'org-mode-hook
+          (lambda ()
+            (when (and buffer-file-name
+                       (string-suffix-p ".org.gpg" buffer-file-name))
+              (setq backup-inhibited t))))
+
 (with-eval-after-load 'org-roam
   (org-roam-db-autosync-mode))
 

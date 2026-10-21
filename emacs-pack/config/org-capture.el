@@ -39,8 +39,6 @@
                     (list ":PROPERTIES:"
                           ":ID: %(org-id-new)"
                           ":END:"
-                          "-*- epa-file-encrypt-to: (\"a.richiardi.work@gmail.com\") -*-"
-                          "-*- backup-inhibited t; -*-"
                           "#+TITLE: %<%Y-%m-%d>"
                           "#+AUTHOR: Andrea Richiardi"
                           "#+CATEGORY: daily"
