@@ -24,9 +24,6 @@
                        (string-suffix-p ".org.gpg" buffer-file-name))
               (setq backup-inhibited t))))
 
-(with-eval-after-load 'org-roam
-  (org-roam-db-autosync-mode))
-
 (custom-set-variables
  '(org-roam-database-connector 'sqlite))
 
